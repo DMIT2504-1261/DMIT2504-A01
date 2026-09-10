@@ -6,6 +6,12 @@
 // 3. I need some sort of function that returns a List<int> (or similar series type) of numbers
 // 4. Somehow, I need to make sure that doesn't have duplicates
 
+
+// Deduplication:
+//  - Option A - keep a parallel array/list of numbers we've generated, check if already seen before putting in list
+//  - Option B - check if value already in list ? decrement (i--) loop counter : add value to list
+//  - Option C - instead of a list, use a set. loop until the set is {count} length
+
 import 'dart:io'; // 2.
 import 'dart:math';
 
@@ -28,8 +34,14 @@ void main() {     // 1.
     // so we add 1 to make it an inclusive range 
     int value = rng.nextInt(largestNum) + 1;
 
-    lottoNumbers[i] = value;
+    // Option B. just check the list (lists are faster @ write, slower @ looking up, but this case is small)
+    if (lottoNumbers.contains(value)) {
+      i--; // pretend this iteration never happened
+    } else {
+      lottoNumbers[i] = value;
+    }
   }
 
   print(lottoNumbers.join(' '));
 }
+
