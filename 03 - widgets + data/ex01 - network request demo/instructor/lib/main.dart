@@ -1,7 +1,7 @@
-import 'dart:convert';
+import 'dart:convert'; // for jsonDecode
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart'; // for HTTP requests e.g. get()
 
 ///TODO: create a stateful widget, override initState to fetch the initial
 /// dog url. NOTE: will need to ensure a callback is used to be certain the
@@ -16,7 +16,16 @@ import 'package:http/http.dart';
      }
 */
 
-void main() {
+// in flutter,
+//  r - hot reload  - will not re-fire main() function
+//  R - hot restart - (shift+r) *will* re-fire main() function 
+Future<void> main() async {
+  final response = await get(
+    Uri.parse('https://dog.ceo/api/breeds/image/random')
+  );
+  final data = jsonDecode(response.body);
+  print(data['message']);
+
   runApp(const MainApp());
 }
 
