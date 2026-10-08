@@ -7,6 +7,15 @@ import 'package:http/http.dart';
 /// dog url. NOTE: will need to ensure a callback is used to be certain the
 /// widget has been mounted before calling setState().
 
+/* we're hitting the URL: 
+      https://dog.ceo/api/breeds/image/random
+   and getting back e.g.: 
+     {
+       "message": "https://images.dog.ceo/breeds/boxer/n02108089_1003.jpg",
+       "status": "success"
+     }
+*/
+
 void main() {
   runApp(const MainApp());
 }
@@ -16,10 +25,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hi there!'),
+          child: Image.network('https://images.dog.ceo/breeds/boxer/n02108089_1003.jpg'),
         ),
       ),
     );
