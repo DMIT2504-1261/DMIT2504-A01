@@ -20,12 +20,6 @@ import 'package:http/http.dart'; // for HTTP requests e.g. get()
 //  r - hot reload  - will not re-fire main() function
 //  R - hot restart - (shift+r) *will* re-fire main() function 
 Future<void> main() async {
-  final response = await get(
-    Uri.parse('https://dog.ceo/api/breeds/image/random')
-  );
-  final data = jsonDecode(response.body);
-  print(data['message']);
-
   runApp(const MainApp());
 }
 
@@ -34,14 +28,34 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Image.network('https://images.dog.ceo/breeds/boxer/n02108089_1003.jpg'),
+          child: RandomDogImage(),
         ),
       ),
     );
   }
+}
+
+class RandomDogImage extends StatelessWidget {
+
+  const RandomDogImage({super.key});
+
+  // static method, bc no inputs that change / nothing instance-dependent
+  static Future<String> getRandomDogUrl() async {
+    const dogEndpoint = 'https://dog.ceo/api/breeds/image/random';
+    var response      = await get(Uri.parse(dogEndpoint));
+
+    return jsonDecode(response.body)['message'];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder(); // a real thing in flutter; useful for WIP stuff without compiler being mad at you
+                                // not showing dog yet
+  }
+
 }
 
 /*
