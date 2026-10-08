@@ -26,9 +26,18 @@ String dogImageUrl = '';
 
 
 Future<void> main() async {
+  // separate out the async behaviour from the sync widget rendering
   dogImageUrl = await RandomDogImage.getRandomDogUrl();
-  // separate out the ^async behaviour^ from the sync widget rendering
-  runApp(const MainApp());
+    runApp(const MainApp());
+
+  /* issues with this:
+      - global scope for locally relevant behaviour is super gross
+      - can't get new dog unless I restart whole app (e.g.: can't refresh account balance w/o restarting entire banking app)
+      - what happens if phone is offline / request fails or hangs: entire app doesn't load soon or ever
+  
+    -> we'll correct this by: using a stateful widget that can fetch and store its own data,
+       and update itself when the data arrives!
+  */
 }
 
 class MainApp extends StatelessWidget {
