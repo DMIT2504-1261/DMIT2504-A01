@@ -60,7 +60,7 @@ class MyHomePage extends StatefulWidget { // the widget itself is immutable, i.e
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0; // this is automatically stateful
                     // I could make more attributes here, and they'd be stateful too
-
+  String _shrek = "is love";
 
   void _incrementCounter() {
     // note: callback functions in Dart are () {}, not () => {} as in JS
@@ -69,6 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   // this differs from React state because classes allow us to have 'one bag' where we put
                   // all the stateful data we need for a given component/widget
       _counter++;
+    });
+  }
+
+  void _toggleShrek() {
+  
+    setState(() { // I don't need a separate setter function; I just use setState() for anything in here
+      _shrek = "is life";
     });
   }
 
@@ -86,11 +93,21 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
+
             const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+
+            Text('Shrek: $_shrek'),
+
+            FloatingActionButton(
+              onPressed: _toggleShrek,
+              tooltip: 'get out of my swamp',
+              child: const Icon(Icons.add),
+            ),          
+          
           ],
         ),
       ),
