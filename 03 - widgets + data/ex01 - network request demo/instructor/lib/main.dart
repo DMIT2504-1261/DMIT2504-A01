@@ -19,7 +19,15 @@ import 'package:http/http.dart'; // for HTTP requests e.g. get()
 // in flutter,
 //  r - hot reload  - will not re-fire main() function
 //  R - hot restart - (shift+r) *will* re-fire main() function 
+
+// I can't have a stateless widget with an async build method, so I need some other way
+// of setting up my dog URL before showing it:
+String dogImageUrl = '';
+
+
 Future<void> main() async {
+  dogImageUrl = await RandomDogImage.getRandomDogUrl();
+  // separate out the ^async behaviour^ from the sync widget rendering
   runApp(const MainApp());
 }
 
@@ -52,47 +60,7 @@ class RandomDogImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder(); // a real thing in flutter; useful for WIP stuff without compiler being mad at you
-                                // not showing dog yet
-  }
-
-}
-
-/*
-String dogImageUrl = '';
-
-Future<void> main() async {
-  dogImageUrl = await RandomDogImage.getRandomDogUrl();
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: RandomDogImage(),
-        ),
-      ),
-    );
-  }
-}
-
-class RandomDogImage extends StatelessWidget {
-  const RandomDogImage({super.key});
-
-  static Future<String> getRandomDogUrl() async {
-    const dogEndpoint = 'https://dog.ceo/api/breeds/image/random';
-    var response = await get(Uri.parse(dogEndpoint));
-    return await jsonDecode(response.body)['message'];
-  }
-
-  @override
-  build(BuildContext context) {
     return Image.network(dogImageUrl);
   }
+
 }
-*/
